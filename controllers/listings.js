@@ -35,25 +35,6 @@ module.exports.createListing = async (req, res, next) => {
   res.redirect("/listings");
 };
 
-// module.exports.showListing = async (req, res) => {
-//   let { id } = req.params;
-//   const listing = await Listing.findById(id)
-//     .populate({
-//       path: "reviews",
-//       populate: {
-//         path: "author",
-//       },
-//     })
-//     // .populate("reviews")
-//     .populate("owner");
-//   if (!listing) {
-//     req.flash("error", "Listing not found");
-//     return res.redirect("/listings");
-//   }
-
-//   res.render("./listings/show.ejs", { listing });
-// };
-
 module.exports.showListing = async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id)
@@ -80,9 +61,6 @@ module.exports.renderEditForm = async (req, res) => {
 };
 
 module.exports.updateListing = async (req, res) => {
-  // if (!req.body.listing) {
-  //   throw new ExpressError(400, "Please fill in all fields");
-  // }
   let { id } = req.params;
   let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
   if (typeof req.file !== "undefined") {
@@ -103,5 +81,3 @@ module.exports.destroyListing = async (req, res) => {
   req.flash("success", "Listing deleted");
   res.redirect("/listings");
 };
-
-// https://res.cloudinary.com/dw7zzofcc/image/upload/v1724965583/wanderlust_DEV/prdyeulrqhy60umc5lzz.jpg

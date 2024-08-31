@@ -1,16 +1,6 @@
 const mongoose = require('mongoose');
 const Schema =mongoose.Schema;
 
-main().then(()=>{
-console.log("connected to database");
-}).catch(err=>{
-    console.log(err);
-});
-
-async function main(){
-   await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
-   
-}
 
 
 const listingSchema=new Schema({

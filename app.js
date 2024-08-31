@@ -22,7 +22,6 @@ const listingRouter = require("./routes/listings.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const dburl = process.env.MONGO_URL;
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
@@ -45,7 +44,7 @@ async function main() {
 const store = MongoStore.create({
   mongoUrl: dburl,
   crypto: {
-    secret: process.env.SECRET,
+    secret:process.env.SECRET
   },
   touchAfter: 24 * 3600,
 });
@@ -60,17 +59,12 @@ const sessionOptions = {
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
-    maxAge: 1000 * 60 * 60 * 24 * 7 * 1000, // 7 days
-    // secure: false, // set to true for https
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+    maxAge: 1000 * 60 * 60 * 24 * 7 * 1000,
   },
 };
 
-//session
 
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -90,17 +84,7 @@ app.use((req, res, next) => {
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
-//Passport
 
-// app.get("/demouser", async (req, res) => {
-//   let fakeUser = new User({
-//     email: "student@gmail.com",
-//     username: "delta-student",
-//   });
-
-//   let registeredUser = await User.register(fakeUser, "helloworld");
-//   res.send(registeredUser);
-// });
 
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "page not found"));
@@ -110,7 +94,6 @@ app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something Went Wrong!" } = err;
   res.status(statusCode).render("error.ejs", { message });
 
-  //   res.status(statusCode).send(message);
 });
 
 app.listen(port, (req, res) => {
